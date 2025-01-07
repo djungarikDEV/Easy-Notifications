@@ -48,7 +48,7 @@ The example is organized into different sections, each demonstrating a specific 
 ## Assets
 
 The example includes sample images in the `assets/images` directory:
-- `notification_image.jpg`: Sample image for notification with image demo
+- `hamster_on_hands.jpg`: Sample image for notification with image demo
 
 Make sure to include these assets in your `pubspec.yaml`:
 
