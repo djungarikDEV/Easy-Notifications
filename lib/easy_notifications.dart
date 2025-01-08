@@ -1,3 +1,8 @@
+/// A Flutter plugin for handling local notifications with enhanced security and privacy features.
+/// This plugin provides a simple interface for sending and managing local notifications
+/// while ensuring user privacy and data protection.
+library easy_notifications;
+
 import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -7,26 +12,30 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:flutter/services.dart';
 
-class NotificationAction {
-  final String id;
-  final String title;
-  final VoidCallback onPressed;
-
-  NotificationAction({
-    required this.id,
-    required this.title,
-    required this.onPressed,
-  });
-}
-
+/// The main class for handling notifications in the Easy Notifications plugin.
+/// Provides methods for initializing the plugin and managing notifications.
 class EasyNotifications {
-  static final FlutterLocalNotificationsPlugin _notifications =
-      FlutterLocalNotificationsPlugin();
-  static bool _initialized = false;
-  static final Map<String, VoidCallback> _actionHandlers = {};
-  static const _platform = MethodChannel('easy_notifications');
+  /// Checks if notifications are enabled for the application.
+  /// Returns true if notifications are enabled, false otherwise.
+  static Future<bool> areNotificationsEnabled() async {
+    if (!_initialized) {
+      await init();
+    }
+    if (Platform.isAndroid) {
+      final androidImpl = _notifications.resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>();
+      return await androidImpl?.areNotificationsEnabled() ?? false;
+    }
+    return true;
+  }
+
+  /// The unique identifier for each notification.
+  /// Used to track and manage individual notifications.
   static const int NOTIFICATION_ID = 1;
 
+  /// Initializes the Easy Notifications plugin.
+  /// Must be called before using any other methods.
+  /// Returns true if initialization was successful.
   static Future<void> init() async {
     if (_initialized) return;
 
@@ -58,6 +67,14 @@ class EasyNotifications {
     _initialized = true;
   }
 
+  static final FlutterLocalNotificationsPlugin _notifications =
+      FlutterLocalNotificationsPlugin();
+  static bool _initialized = false;
+  static final Map<String, VoidCallback> _actionHandlers = {};
+  static const _platform = MethodChannel('easy_notifications');
+
+  /// Asks the user for permission to display notifications.
+  /// Returns true if permission was granted, false otherwise.
   static Future<bool> askPermission() async {
     try {
       if (Platform.isAndroid) {
@@ -82,16 +99,21 @@ class EasyNotifications {
     }
   }
 
+  /// Hides the notification with the specified ID.
+  /// Returns true if the notification was hidden, false otherwise.
   static Future<void> hide() async {
     await _notifications.cancel(NOTIFICATION_ID);
   }
 
+  /// Opens the application.
   static Future<void> openApp() async {
     try {
       await _platform.invokeMethod('openApp');
     } on PlatformException {}
   }
 
+  /// Copies an asset to a local file.
+  /// Returns the path to the local file, or null if the copy operation failed.
   static Future<String?> _copyAssetToLocal(String assetPath) async {
     try {
       final ByteData data = await rootBundle.load(assetPath);
@@ -118,6 +140,8 @@ class EasyNotifications {
     }
   }
 
+  /// Shows a notification with the specified title, body, and image.
+  /// Returns true if the notification was shown, false otherwise.
   static Future<void> showMessage({
     required String title,
     required String body,
@@ -197,18 +221,8 @@ class EasyNotifications {
     await _notifications.show(NOTIFICATION_ID, title, body, details);
   }
 
-  static Future<bool> areNotificationsEnabled() async {
-    if (!_initialized) {
-      await init();
-    }
-    if (Platform.isAndroid) {
-      final androidImpl = _notifications.resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>();
-      return await androidImpl?.areNotificationsEnabled() ?? false;
-    }
-    return true;
-  }
-
+  /// Schedules a notification to be shown at the specified date and time.
+  /// Returns true if the notification was scheduled, false otherwise.
   static Future<void> scheduleMessage({
     required String title,
     required String body,
@@ -298,6 +312,8 @@ class EasyNotifications {
     );
   }
 
+  /// Updates a notification with the specified title, body, and image.
+  /// Returns true if the notification was updated, false otherwise.
   static Future<void> updateMessage({
     required String title,
     required String body,
@@ -369,4 +385,23 @@ class EasyNotifications {
     );
     await _notifications.show(NOTIFICATION_ID, title, body, details);
   }
+}
+
+/// A class representing a notification action.
+class NotificationAction {
+  /// The unique identifier for the action.
+  final String id;
+
+  /// The title of the action.
+  final String title;
+
+  /// The callback function to be executed when the action is pressed.
+  final VoidCallback onPressed;
+
+  /// Creates a new notification action.
+  NotificationAction({
+    required this.id,
+    required this.title,
+    required this.onPressed,
+  });
 }
