@@ -1,5 +1,5 @@
 name: easy_notifications
-description: A Flutter plugin for handling local notifications with enhanced security and privacy features. Supports Android and iOS platforms with customizable notification styles and scheduled delivery.
+description: A secure Flutter plugin for local notifications with enhanced privacy features. Supports Android and iOS with customizable styles.
 version: 1.0.1
 repository: https://github.com/djungarikDEV/Easy-Notifications.git
 issue_tracker: https://github.com/djungarikDEV/Easy-Notifications/issues
@@ -13,9 +13,9 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_local_notifications: ^18.0.1
-  timezone: ^0.9.2
-  path_provider: ^2.1.1
   path: ^1.8.3
+  path_provider: ^2.1.1
+  timezone: ^0.10.0
 
 dev_dependencies:
   flutter_test:
