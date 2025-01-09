@@ -79,6 +79,25 @@ await EasyNotifications.scheduleMessage(
   body: 'Time for your meeting!',
   scheduledDate: DateTime.now().add(Duration(hours: 1)),
 );
+
+## Recent Updates
+
+### Version 1.0.2
+* Fixed Android implementation and configuration
+* Added proper permissions handling
+* Improved platform compatibility
+* Enhanced error handling
+
+### Android Setup
+Make sure to add the following permissions to your Android Manifest:
+
+```xml
+<uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+<uses-permission android:name="android.permission.VIBRATE" />
+<uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
+<uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+<uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 ```
 
 ## Security & Privacy Considerations
