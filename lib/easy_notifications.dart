@@ -323,26 +323,28 @@ class EasyNotifications {
     if (!_initialized) {
       await init();
     }
-    final hasPermission = await askPermission();
-    if (!hasPermission) {
-      return;
+
+    String? localImagePath;
+    if (imagePath != null) {
+      localImagePath = await _copyAssetToLocal(imagePath);
+      debugPrint('Local image path: $localImagePath');
     }
+
     if (actions != null) {
       for (var action in actions) {
         _actionHandlers[action.id] = action.onPressed;
       }
     }
-    final androidActions = actions
-            ?.map(
-              (action) => AndroidNotificationAction(
-                action.id,
-                action.title,
-                showsUserInterface: true,
-                cancelNotification: false,
-              ),
-            )
-            .toList() ??
-        [];
+
+    final androidActions = actions?.map(
+      (action) => AndroidNotificationAction(
+        action.id,
+        action.title,
+        showsUserInterface: true,
+        cancelNotification: false,
+      ),
+    ).toList() ?? [];
+
     final androidDetails = AndroidNotificationDetails(
       'easy_notifications_channel',
       'Easy Notifications',
@@ -350,39 +352,40 @@ class EasyNotifications {
       importance: Importance.high,
       priority: Priority.high,
       actions: androidActions,
-      icon: 'app_icon',
-      largeIcon:
-          imagePath != null ? FilePathAndroidBitmap(imagePath) : null,
-      styleInformation: imagePath != null
+      icon: 'ic_launcher',
+      largeIcon: localImagePath != null ? FilePathAndroidBitmap(localImagePath) : null,
+      styleInformation: localImagePath != null
           ? BigPictureStyleInformation(
-              FilePathAndroidBitmap(imagePath),
-              largeIcon: FilePathAndroidBitmap(imagePath),
+              FilePathAndroidBitmap(localImagePath),
+              hideExpandedLargeIcon: true,
               contentTitle: title,
               summaryText: body,
-              hideExpandedLargeIcon: false,
             )
           : null,
       channelShowBadge: true,
-      autoCancel: false,
-      ongoing: true,
-      playSound: true,
+      autoCancel: true,
+      ongoing: true, // Required for updatable notifications
+      playSound: false, // Don't play sound on updates
       enableLights: true,
+      onlyAlertOnce: true, // Show alert only on first notification
       color: Colors.blue,
       visibility: NotificationVisibility.public,
     );
+
     final iosDetails = DarwinNotificationDetails(
       presentAlert: true,
       presentBadge: true,
-      presentSound: true,
+      presentSound: false, // Don't play sound on updates
       categoryIdentifier: actions != null ? 'actionable' : null,
-      attachments:
-          imagePath != null ? [DarwinNotificationAttachment(imagePath)] : null,
+      attachments: localImagePath != null ? [DarwinNotificationAttachment(localImagePath)] : null,
     );
+
     final details = NotificationDetails(
       android: androidDetails,
       iOS: iosDetails,
       macOS: iosDetails,
     );
+
     await _notifications.show(NOTIFICATION_ID, title, body, details);
   }
 }
