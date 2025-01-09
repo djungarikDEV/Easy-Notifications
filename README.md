@@ -24,7 +24,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  easy_notifications: ^1.0.2
+  easy_notifications: ^1.0.3
 ```
 
 ### Platform Setup
@@ -54,10 +54,10 @@ Add the following keys to your `Info.plist`:
 ### Basic Usage
 
 ```dart
-// Initialize the plugin
+// Initialize the plugin(Not required)
 await EasyNotifications.init();
 
-// Request permissions
+// Request permissions(Not required)
 final hasPermission = await EasyNotifications.askPermission();
 
 // Show a simple notification
@@ -82,7 +82,7 @@ await EasyNotifications.scheduleMessage(
 
 ## Recent Updates
 
-### Version 1.0.2
+### Version 1.0.3
 * Fixed Android implementation and configuration
 * Added proper permissions handling
 * Improved platform compatibility
