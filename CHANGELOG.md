@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.0.4
+
+* Updated flutter_local_notifications to ^18.0.1
+* Updated timezone to ^0.10.0
+* Updated path_provider to ^2.1.5
+* Updated path to ^1.9.1
+* Updated plugin_platform_interface to ^2.1.8
+* Clarified that init() and askPermission() are optional in documentation
+
+## 1.0.3a
+
+* Updated flutter_local_notifications to ^18.0.1
+* Updated timezone to ^0.10.0
+* Updated path_provider to ^2.1.5
+* Updated path to ^1.9.1
+* Updated plugin_platform_interface to ^2.1.8
+* Clarified that init() and askPermission() are optional in documentation
+
 ## 1.0.3
 
 * Fixed androidAllowWhileIdle deprecation warning
