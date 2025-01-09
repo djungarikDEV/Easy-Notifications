@@ -1,14 +1,19 @@
 # Changelog
 
+## 1.0.3
+
+* Fixed androidAllowWhileIdle deprecation warning
+* Updated to use androidScheduleMode instead
+* Fixed notification scheduling on newer Android versions
+* Updated dependencies to latest versions
+
 ## 1.0.2
 
-* Fixed Android implementation:
-  * Added correct package namespace
-  * Fixed plugin main class location
-  * Updated Gradle configuration
-  * Added proper Android manifest with required permissions
-* Improved error handling for platform-specific operations
-* Enhanced documentation for Android setup
+* Added default notification icon configuration via AndroidManifest.xml
+* Fixed notification initialization and permission handling
+* Improved error handling for notification scheduling
+* Removed invalid dispose call
+* Updated documentation with Android setup instructions
 
 ## 1.0.1
 
