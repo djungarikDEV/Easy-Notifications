@@ -24,7 +24,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  easy_notifications: ^1.0.3
+  easy_notifications: ^1.0.4
 ```
 
 ### Platform Setup
@@ -81,6 +81,11 @@ await EasyNotifications.scheduleMessage(
 );
 
 ## Recent Updates
+
+### Version 1.0.4
+* Updated all dependencies to latest versions
+* Improved documentation clarity
+* Enhanced compatibility with latest Flutter version
 
 ### Version 1.0.3
 * Fixed Android implementation and configuration
