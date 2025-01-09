@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.0.2
+
+* Fixed Android implementation:
+  * Added correct package namespace
+  * Fixed plugin main class location
+  * Updated Gradle configuration
+  * Added proper Android manifest with required permissions
+* Improved error handling for platform-specific operations
+* Enhanced documentation for Android setup
+
+## 1.0.1
+
+* Fixed Android platform implementation
+* Added proper plugin configuration
+
 ## 1.0.0
 
 Initial release with SOC 2 compliance considerations.
