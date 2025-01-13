@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.5
+
+* Added iOS podspec and native implementation
+* Fixed iOS platform support and configuration
+* Updated dependencies to latest versions
+* Improved error handling and stability
+
 ## 1.0.4
 
 * Updated flutter_local_notifications to ^18.0.1
