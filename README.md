@@ -1,5 +1,7 @@
 # Easy Notifications
 
+![Easy Notifications Logo](https://raw.githubusercontent.com/djungarikDEV/Easy-Notifications/example/assets/easy_notifications_logo.png)
+
 [![pub package](https://img.shields.io/pub/v/easy_notifications.svg)](https://pub.dev/packages/easy_notifications)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
@@ -24,7 +26,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  easy_notifications: ^1.0.5
+  easy_notifications: ^1.1.6
 ```
 
 ### Platform Setup
@@ -82,16 +84,17 @@ await EasyNotifications.scheduleMessage(
 
 ## Recent Updates
 
+### 1.1.6
+
+* Added support for default notification icon configuration
+* Added plugin logoc
+* Improved documentation
+
 ### 1.0.5
 * Added iOS podspec and native implementation
 * Fixed iOS platform support and configuration
 * Updated dependencies to latest versions
 * Improved error handling and stability
-
-### Version 1.0.4
-* Updated all dependencies to latest versions
-* Improved documentation clarity
-* Enhanced compatibility with latest Flutter version
 
 ### Android Setup
 Make sure to add the following permissions to your Android Manifest:
