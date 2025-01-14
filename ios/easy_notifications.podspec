@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'easy_notifications'
-  s.version          = '1.1.6'
+  s.version          = '1.1.7'
   s.summary          = 'A simple Flutter plugin for handling local notifications'
   s.description      = <<-DESC
 A simple Flutter plugin for handling local notifications with ease.
