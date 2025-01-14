@@ -1,6 +1,6 @@
 # Easy Notifications
 
-![Easy Notifications Logo](https://raw.githubusercontent.com/djungarikDEV/Easy-Notifications/example/assets/easy_notifications_logo.png)
+![Easy Notifications Logo](https://github.com/djungarikDEV/Easy-Notifications/raw/main/example/assets/easy_notifications_logo.jpg)
 
 [![pub package](https://img.shields.io/pub/v/easy_notifications.svg)](https://pub.dev/packages/easy_notifications)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
