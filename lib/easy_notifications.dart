@@ -29,9 +29,8 @@ class EasyNotifications {
     return true;
   }
 
-  /// The unique identifier for each notification.
-  /// Used to track and manage individual notifications.
-  static const int NOTIFICATION_ID = 1;
+  /// The notification ID used for all notifications
+  static const notificationId = 1;
 
   /// Initializes the Easy Notifications plugin.
   /// Must be called before using any other methods.
@@ -72,14 +71,21 @@ class EasyNotifications {
   static bool _initialized = false;
   static final Map<String, VoidCallback> _actionHandlers = {};
   static const _platform = MethodChannel('easy_notifications');
+  static String? defaultIcon;
+
+  /// Initialize Easy Notifications with optional default settings
+  static Future<void> initialize({String? defaultNotificationIcon}) async {
+    defaultIcon = defaultNotificationIcon;
+  }
 
   /// Asks the user for permission to display notifications.
   /// Returns true if permission was granted, false otherwise.
   static Future<bool> askPermission() async {
     try {
       if (Platform.isAndroid) {
-        final androidImpl = _notifications.resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>();
+        final androidImpl =
+            _notifications.resolvePlatformSpecificImplementation<
+                AndroidFlutterLocalNotificationsPlugin>();
         final result = await androidImpl?.requestNotificationsPermission();
         return result ?? false;
       } else if (Platform.isIOS) {
@@ -102,14 +108,18 @@ class EasyNotifications {
   /// Hides the notification with the specified ID.
   /// Returns true if the notification was hidden, false otherwise.
   static Future<void> hide() async {
-    await _notifications.cancel(NOTIFICATION_ID);
+    await _notifications.cancel(notificationId);
   }
 
   /// Opens the application.
   static Future<void> openApp() async {
     try {
       await _platform.invokeMethod('openApp');
-    } on PlatformException {}
+    } on PlatformException catch (e) {
+      debugPrint(
+          'EasyNotifications: Platform exception occurred: ${e.message}');
+      rethrow;
+    }
   }
 
   /// Copies an asset to a local file.
@@ -122,7 +132,7 @@ class EasyNotifications {
       final Directory appDir = await getApplicationDocumentsDirectory();
       final String fileName = p.basename(assetPath);
       final String localPath = p.join(appDir.path, 'notification_images');
-      
+
       final Directory imageDir = Directory(localPath);
       if (!await imageDir.exists()) {
         await imageDir.create(recursive: true);
@@ -131,7 +141,7 @@ class EasyNotifications {
       final String filePath = p.join(localPath, fileName);
       final File localFile = File(filePath);
       await localFile.writeAsBytes(bytes);
-      
+
       debugPrint('Image copied to: $filePath');
       return filePath;
     } catch (e) {
@@ -147,6 +157,7 @@ class EasyNotifications {
     required String body,
     String? imagePath,
     List<NotificationAction>? actions,
+    String? icon,
   }) async {
     if (!_initialized) {
       await init();
@@ -164,19 +175,22 @@ class EasyNotifications {
     }
 
     if (actions != null) {
-      for (var action in actions) {
+      for (final action in actions) {
         _actionHandlers[action.id] = action.onPressed;
       }
     }
 
-    final androidActions = actions?.map(
-      (action) => AndroidNotificationAction(
-        action.id,
-        action.title,
-        showsUserInterface: true,
-        cancelNotification: false,
-      ),
-    ).toList() ?? [];
+    final androidActions = actions
+            ?.map(
+              (action) => AndroidNotificationAction(
+                action.id,
+                action.title,
+                showsUserInterface: true,
+                cancelNotification: false,
+              ),
+            )
+            .toList() ??
+        [];
 
     final androidDetails = AndroidNotificationDetails(
       'easy_notifications_channel',
@@ -185,8 +199,9 @@ class EasyNotifications {
       importance: Importance.high,
       priority: Priority.high,
       actions: androidActions,
-      icon: 'ic_launcher',
-      largeIcon: localImagePath != null ? FilePathAndroidBitmap(localImagePath) : null,
+      icon: icon ?? defaultIcon ?? 'ic_launcher',
+      largeIcon:
+          localImagePath != null ? FilePathAndroidBitmap(localImagePath) : null,
       styleInformation: localImagePath != null
           ? BigPictureStyleInformation(
               FilePathAndroidBitmap(localImagePath),
@@ -209,7 +224,9 @@ class EasyNotifications {
       presentBadge: true,
       presentSound: true,
       categoryIdentifier: actions != null ? 'actionable' : null,
-      attachments: localImagePath != null ? [DarwinNotificationAttachment(localImagePath)] : null,
+      attachments: localImagePath != null
+          ? [DarwinNotificationAttachment(localImagePath)]
+          : null,
     );
 
     final details = NotificationDetails(
@@ -218,7 +235,7 @@ class EasyNotifications {
       macOS: iosDetails,
     );
 
-    await _notifications.show(NOTIFICATION_ID, title, body, details);
+    await _notifications.show(notificationId, title, body, details);
   }
 
   /// Schedules a notification to be shown at the specified date and time.
@@ -229,6 +246,7 @@ class EasyNotifications {
     required DateTime scheduledDate,
     String? imagePath,
     List<NotificationAction>? actions,
+    String? icon,
   }) async {
     if (!_initialized) {
       await init();
@@ -246,19 +264,22 @@ class EasyNotifications {
     }
 
     if (actions != null) {
-      for (var action in actions) {
+      for (final action in actions) {
         _actionHandlers[action.id] = action.onPressed;
       }
     }
 
-    final androidActions = actions?.map(
-      (action) => AndroidNotificationAction(
-        action.id,
-        action.title,
-        showsUserInterface: true,
-        cancelNotification: false,
-      ),
-    ).toList() ?? [];
+    final androidActions = actions
+            ?.map(
+              (action) => AndroidNotificationAction(
+                action.id,
+                action.title,
+                showsUserInterface: true,
+                cancelNotification: false,
+              ),
+            )
+            .toList() ??
+        [];
 
     final androidDetails = AndroidNotificationDetails(
       'easy_notifications_channel',
@@ -267,8 +288,9 @@ class EasyNotifications {
       importance: Importance.high,
       priority: Priority.high,
       actions: androidActions,
-      icon: 'ic_launcher',
-      largeIcon: localImagePath != null ? FilePathAndroidBitmap(localImagePath) : null,
+      icon: icon ?? defaultIcon ?? 'ic_launcher',
+      largeIcon:
+          localImagePath != null ? FilePathAndroidBitmap(localImagePath) : null,
       styleInformation: localImagePath != null
           ? BigPictureStyleInformation(
               FilePathAndroidBitmap(localImagePath),
@@ -291,7 +313,9 @@ class EasyNotifications {
       presentBadge: true,
       presentSound: true,
       categoryIdentifier: actions != null ? 'actionable' : null,
-      attachments: localImagePath != null ? [DarwinNotificationAttachment(localImagePath)] : null,
+      attachments: localImagePath != null
+          ? [DarwinNotificationAttachment(localImagePath)]
+          : null,
     );
 
     final details = NotificationDetails(
@@ -301,7 +325,7 @@ class EasyNotifications {
     );
 
     await _notifications.zonedSchedule(
-      NOTIFICATION_ID,
+      notificationId,
       title,
       body,
       tz.TZDateTime.from(scheduledDate, tz.local),
@@ -319,6 +343,7 @@ class EasyNotifications {
     required String body,
     String? imagePath,
     List<NotificationAction>? actions,
+    String? icon,
   }) async {
     if (!_initialized) {
       await init();
@@ -331,19 +356,22 @@ class EasyNotifications {
     }
 
     if (actions != null) {
-      for (var action in actions) {
+      for (final action in actions) {
         _actionHandlers[action.id] = action.onPressed;
       }
     }
 
-    final androidActions = actions?.map(
-      (action) => AndroidNotificationAction(
-        action.id,
-        action.title,
-        showsUserInterface: true,
-        cancelNotification: false,
-      ),
-    ).toList() ?? [];
+    final androidActions = actions
+            ?.map(
+              (action) => AndroidNotificationAction(
+                action.id,
+                action.title,
+                showsUserInterface: true,
+                cancelNotification: false,
+              ),
+            )
+            .toList() ??
+        [];
 
     final androidDetails = AndroidNotificationDetails(
       'easy_notifications_channel',
@@ -352,8 +380,9 @@ class EasyNotifications {
       importance: Importance.high,
       priority: Priority.high,
       actions: androidActions,
-      icon: 'ic_launcher',
-      largeIcon: localImagePath != null ? FilePathAndroidBitmap(localImagePath) : null,
+      icon: icon ?? defaultIcon ?? 'ic_launcher',
+      largeIcon:
+          localImagePath != null ? FilePathAndroidBitmap(localImagePath) : null,
       styleInformation: localImagePath != null
           ? BigPictureStyleInformation(
               FilePathAndroidBitmap(localImagePath),
@@ -377,7 +406,9 @@ class EasyNotifications {
       presentBadge: true,
       presentSound: false, // Don't play sound on updates
       categoryIdentifier: actions != null ? 'actionable' : null,
-      attachments: localImagePath != null ? [DarwinNotificationAttachment(localImagePath)] : null,
+      attachments: localImagePath != null
+          ? [DarwinNotificationAttachment(localImagePath)]
+          : null,
     );
 
     final details = NotificationDetails(
@@ -386,7 +417,7 @@ class EasyNotifications {
       macOS: iosDetails,
     );
 
-    await _notifications.show(NOTIFICATION_ID, title, body, details);
+    await _notifications.show(notificationId, title, body, details);
   }
 }
 
