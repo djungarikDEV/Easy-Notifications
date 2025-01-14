@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.7
+
+* Small bug fixed
+
+## 1.1.6
+
+* Added support for default notification icon configuration
+* Added plugin logoc
+* Improved documentation
+
 ## 1.0.5
 
 * Added iOS podspec and native implementation
