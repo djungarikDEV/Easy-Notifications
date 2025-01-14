@@ -26,7 +26,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  easy_notifications: ^1.1.6
+  easy_notifications: ^1.1.7
 ```
 
 ### Platform Setup
