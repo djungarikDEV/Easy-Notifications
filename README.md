@@ -84,6 +84,7 @@ await EasyNotifications.scheduleMessage(
   body: 'Time for your meeting!',
   scheduledDate: DateTime.now().add(Duration(hours: 1)),
 );
+```
 
 ## Recent Updates
 
