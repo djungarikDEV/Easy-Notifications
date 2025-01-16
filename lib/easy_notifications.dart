@@ -40,7 +40,7 @@ class EasyNotifications {
 
     tz.initializeTimeZones();
 
-    const androidSettings = AndroidInitializationSettings('ic_launcher');
+    const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
     const iosSettings = DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
@@ -199,7 +199,7 @@ class EasyNotifications {
       importance: Importance.high,
       priority: Priority.high,
       actions: androidActions,
-      icon: icon ?? defaultIcon ?? 'ic_launcher',
+      icon: icon ?? defaultIcon ?? '@mipmap/ic_launcher',
       largeIcon:
           localImagePath != null ? FilePathAndroidBitmap(localImagePath) : null,
       styleInformation: localImagePath != null
@@ -288,7 +288,7 @@ class EasyNotifications {
       importance: Importance.high,
       priority: Priority.high,
       actions: androidActions,
-      icon: icon ?? defaultIcon ?? 'ic_launcher',
+      icon: icon ?? defaultIcon ?? '@mipmap/ic_launcher',
       largeIcon:
           localImagePath != null ? FilePathAndroidBitmap(localImagePath) : null,
       styleInformation: localImagePath != null
@@ -380,7 +380,7 @@ class EasyNotifications {
       importance: Importance.high,
       priority: Priority.high,
       actions: androidActions,
-      icon: icon ?? defaultIcon ?? 'ic_launcher',
+      icon: icon ?? defaultIcon ?? '@mipmap/ic_launcher',
       largeIcon:
           localImagePath != null ? FilePathAndroidBitmap(localImagePath) : null,
       styleInformation: localImagePath != null
