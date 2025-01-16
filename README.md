@@ -2,8 +2,11 @@
 
 ![Easy Notifications Logo](https://github.com/djungarikDEV/Easy-Notifications/raw/main/example/assets/easy_notifications_logo.jpg)
 
-[![pub package](https://img.shields.io/pub/v/easy_notifications.svg)](https://pub.dev/packages/easy_notifications)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Pub Version](https://img.shields.io/pub/v/easy_notifications.svg)](https://pub.dev/packages/easy_notifications)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Platform Support](https://img.shields.io/badge/platform-android%20|%20ios-blue.svg)](https://pub.dev/packages/easy_notifications)
+[![Flutter Support](https://img.shields.io/badge/Flutter-%3E%3D2.0.0-blue.svg)](https://flutter.dev)
+[![Pub Points](https://img.shields.io/pub/points/easy_notifications)](https://pub.dev/packages/easy_notifications/score)
 
 A secure and privacy-focused Flutter plugin for handling local notifications with enhanced features and SOC 2 compliance considerations.
 
@@ -26,7 +29,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  easy_notifications: ^1.1.7
+  easy_notifications: ^1.1.8
 ```
 
 ### Platform Setup
@@ -72,7 +75,7 @@ await EasyNotifications.showMessage(
 await EasyNotifications.showMessage(
   title: 'Hello!',
   body: 'This is a notification with an image',
-  imagePath: 'assets/images/notification_image.jpg',
+  imagePath: 'assets/images/hamster_on_hands.jpg',
 );
 
 // Schedule a notification
@@ -84,17 +87,20 @@ await EasyNotifications.scheduleMessage(
 
 ## Recent Updates
 
-### 1.1.6
+### 1.1.8
+
+* Fixed notification issues on Android 13+
+* Improved permission handling for notifications
+* Added proper notification channel initialization
+* Enhanced security with exported=false for broadcast receivers
+* Updated dependencies to latest stable versions
+* Fixed ic_launcher icon path issues
+
+### 1.1.7
 
 * Added support for default notification icon configuration
-* Added plugin logoc
+* Added plugin logo
 * Improved documentation
-
-### 1.0.5
-* Added iOS podspec and native implementation
-* Fixed iOS platform support and configuration
-* Updated dependencies to latest versions
-* Improved error handling and stability
 
 ### Android Setup
 Make sure to add the following permissions to your Android Manifest:
