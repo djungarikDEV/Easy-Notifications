@@ -40,7 +40,7 @@ class EasyNotifications {
 
     tz.initializeTimeZones();
 
-    const androidSettings = AndroidInitializationSettings();
+    const androidSettings = AndroidInitializationSettings("@mipmap/ic_launcher");
     const iosSettings = DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
