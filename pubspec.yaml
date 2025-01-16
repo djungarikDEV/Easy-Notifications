@@ -1,6 +1,6 @@
 name: easy_notifications
 description: A secure and privacy-focused Flutter plugin for handling local notifications with enhanced features and SOC 2 compliance considerations.
-version: 1.1.7
+version: 1.1.8
 repository: https://github.com/djungarikDEV/Easy-Notifications.git
 issue_tracker: https://github.com/djungarikDEV/Easy-Notifications/issues
 homepage: https://github.com/djungarikDEV/Easy-Notifications
@@ -13,9 +13,11 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_local_notifications: ^18.0.1
-  timezone: ^0.10.0
-  path_provider: ^2.1.5
-  path: ^1.9.0
+  timezone: ^0.9.2
+  path_provider: ^2.1.1
+  path: ^1.8.3
+  device_info_plus: ^11.2.1
+  permission_handler: ^11.0.1
   plugin_platform_interface: ^2.1.8
 
 dev_dependencies:
