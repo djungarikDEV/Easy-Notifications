@@ -1,16 +1,12 @@
-/// A Flutter plugin for handling local notifications with enhanced security and privacy features.
-/// This plugin provides a simple interface for sending and managing local notifications
-/// while ensuring user privacy and data protection.
-library easy_notifications;
+import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as p;
-import 'package:flutter/services.dart';
 
 /// The main class for handling notifications in the Easy Notifications plugin.
 /// Provides methods for initializing the plugin and managing notifications.
@@ -423,6 +419,13 @@ class EasyNotifications {
 
 /// A class representing a notification action.
 class NotificationAction {
+  /// Creates a new notification action.
+  NotificationAction({
+    required this.id,
+    required this.title,
+    required this.onPressed,
+  });
+
   /// The unique identifier for the action.
   final String id;
 
@@ -431,11 +434,4 @@ class NotificationAction {
 
   /// The callback function to be executed when the action is pressed.
   final VoidCallback onPressed;
-
-  /// Creates a new notification action.
-  NotificationAction({
-    required this.id,
-    required this.title,
-    required this.onPressed,
-  });
 }
