@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.1.8
+* Fixed notification issues on Android 13+
+* Improved permission handling for notifications
+* Added proper notification channel initialization
+* Enhanced security with exported=false for broadcast receivers
+* Updated dependencies to latest stable versions
+* Fixed ic_launcher icon path issues
+* Added support for critical notifications on iOS
+* Improved error handling and logging
+* Updated package dependencies
+
 ## 1.1.7
 
 * Small bug fixed
