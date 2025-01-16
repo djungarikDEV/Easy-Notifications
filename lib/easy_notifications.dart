@@ -247,6 +247,7 @@ class EasyNotifications {
     String? imagePath,
     List<NotificationAction>? actions,
     String? icon,
+    NotificationLevel level = const NotificationLevel.urgent(),
   }) async {
     if (!_initialized) {
       await init();
@@ -285,8 +286,8 @@ class EasyNotifications {
       'easy_notifications_channel',
       'Easy Notifications',
       channelDescription: 'Channel for easy notifications',
-      importance: Importance.high,
-      priority: Priority.high,
+      importance: level.importance,
+      priority: level.priority,
       actions: androidActions,
       icon: icon ?? defaultIcon ?? 'ic_launcher',
       largeIcon:
@@ -299,19 +300,19 @@ class EasyNotifications {
               summaryText: body,
             )
           : null,
-      channelShowBadge: true,
+      channelShowBadge: level.badge,
       autoCancel: true,
       ongoing: false,
-      playSound: true,
-      enableLights: true,
+      playSound: level.sound,
+      enableLights: level.lights,
       color: Colors.blue,
       visibility: NotificationVisibility.public,
     );
 
     final iosDetails = DarwinNotificationDetails(
-      presentAlert: true,
-      presentBadge: true,
-      presentSound: true,
+      presentAlert: level.alert,
+      presentBadge: level.badge,
+      presentSound: level.sound,
       categoryIdentifier: actions != null ? 'actionable' : null,
       attachments: localImagePath != null
           ? [DarwinNotificationAttachment(localImagePath)]
@@ -438,4 +439,46 @@ class NotificationAction {
     required this.title,
     required this.onPressed,
   });
+}
+
+class NotificationLevel {
+  const NotificationLevel.urgent()
+      : badge = true,
+        sound = true,
+        lights = true,
+        alert = true,
+        importance = Importance.max,
+        priority = Priority.max;
+
+  const NotificationLevel.normal()
+      : badge = true,
+        sound = true,
+        lights = false,
+        alert = true,
+        importance = Importance.defaultImportance,
+        priority = Priority.defaultPriority;
+
+  const NotificationLevel.subtle()
+      : badge = false,
+        sound = false,
+        lights = false,
+        alert = false,
+        importance = Importance.low,
+        priority = Priority.low;
+
+  const NotificationLevel.custom({
+    required this.badge,
+    required this.sound,
+    required this.lights,
+    required this.alert,
+    required this.importance,
+    required this.priority,
+  });
+
+  final bool badge;
+  final bool sound;
+  final bool lights;
+  final bool alert;
+  final Importance importance;
+  final Priority priority;
 }
