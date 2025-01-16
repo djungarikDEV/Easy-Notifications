@@ -40,7 +40,7 @@ class EasyNotifications {
 
     tz.initializeTimeZones();
 
-    const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+    const androidSettings = AndroidInitializationSettings('ic_launcher');
     const iosSettings = DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
@@ -158,7 +158,6 @@ class EasyNotifications {
     String? imagePath,
     List<NotificationAction>? actions,
     String? icon,
-    NotificationLevel level = const NotificationLevel.urgent(),
   }) async {
     if (!_initialized) {
       await init();
@@ -197,10 +196,10 @@ class EasyNotifications {
       'easy_notifications_channel',
       'Easy Notifications',
       channelDescription: 'Channel for easy notifications',
-      importance: level.importance,
-      priority: level.priority,
+      importance: Importance.high,
+      priority: Priority.high,
       actions: androidActions,
-      icon: icon ?? defaultIcon ?? '@mipmap/ic_launcher',
+      icon: icon ?? defaultIcon ?? 'ic_launcher',
       largeIcon:
           localImagePath != null ? FilePathAndroidBitmap(localImagePath) : null,
       styleInformation: localImagePath != null
@@ -211,19 +210,19 @@ class EasyNotifications {
               summaryText: body,
             )
           : null,
-      channelShowBadge: level.badge,
+      channelShowBadge: true,
       autoCancel: true,
       ongoing: false,
-      playSound: level.sound,
-      enableLights: level.lights,
+      playSound: true,
+      enableLights: true,
       color: Colors.blue,
-      visibility: level.visibility,
+      visibility: NotificationVisibility.public,
     );
 
     final iosDetails = DarwinNotificationDetails(
-      presentAlert: level.alert,
-      presentBadge: level.badge,
-      presentSound: level.sound,
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
       categoryIdentifier: actions != null ? 'actionable' : null,
       attachments: localImagePath != null
           ? [DarwinNotificationAttachment(localImagePath)]
@@ -248,7 +247,6 @@ class EasyNotifications {
     String? imagePath,
     List<NotificationAction>? actions,
     String? icon,
-    NotificationLevel level = const NotificationLevel.urgent(),
   }) async {
     if (!_initialized) {
       await init();
@@ -287,10 +285,10 @@ class EasyNotifications {
       'easy_notifications_channel',
       'Easy Notifications',
       channelDescription: 'Channel for easy notifications',
-      importance: level.importance,
-      priority: level.priority,
+      importance: Importance.high,
+      priority: Priority.high,
       actions: androidActions,
-      icon: icon ?? defaultIcon ?? '@mipmap/ic_launcher',
+      icon: icon ?? defaultIcon ?? 'ic_launcher',
       largeIcon:
           localImagePath != null ? FilePathAndroidBitmap(localImagePath) : null,
       styleInformation: localImagePath != null
@@ -301,19 +299,19 @@ class EasyNotifications {
               summaryText: body,
             )
           : null,
-      channelShowBadge: level.badge,
+      channelShowBadge: true,
       autoCancel: true,
       ongoing: false,
-      playSound: level.sound,
-      enableLights: level.lights,
+      playSound: true,
+      enableLights: true,
       color: Colors.blue,
-      visibility: level.visibility,
+      visibility: NotificationVisibility.public,
     );
 
     final iosDetails = DarwinNotificationDetails(
-      presentAlert: level.alert,
-      presentBadge: level.badge,
-      presentSound: level.sound,
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
       categoryIdentifier: actions != null ? 'actionable' : null,
       attachments: localImagePath != null
           ? [DarwinNotificationAttachment(localImagePath)]
@@ -346,7 +344,6 @@ class EasyNotifications {
     String? imagePath,
     List<NotificationAction>? actions,
     String? icon,
-    NotificationLevel level = const NotificationLevel.urgent(),
   }) async {
     if (!_initialized) {
       await init();
@@ -380,10 +377,10 @@ class EasyNotifications {
       'easy_notifications_channel',
       'Easy Notifications',
       channelDescription: 'Channel for easy notifications',
-      importance: level.importance,
-      priority: level.priority,
+      importance: Importance.high,
+      priority: Priority.high,
       actions: androidActions,
-      icon: icon ?? defaultIcon ?? '@mipmap/ic_launcher',
+      icon: icon ?? defaultIcon ?? 'ic_launcher',
       largeIcon:
           localImagePath != null ? FilePathAndroidBitmap(localImagePath) : null,
       styleInformation: localImagePath != null
@@ -398,15 +395,15 @@ class EasyNotifications {
       autoCancel: true,
       ongoing: true, // Required for updatable notifications
       playSound: false, // Don't play sound on updates
-      enableLights: level.lights,
+      enableLights: true,
       onlyAlertOnce: true, // Show alert only on first notification
       color: Colors.blue,
-      visibility: level.visibility,
+      visibility: NotificationVisibility.public,
     );
 
     final iosDetails = DarwinNotificationDetails(
-      presentAlert: level.alert,
-      presentBadge: level.badge,
+      presentAlert: true,
+      presentBadge: true,
       presentSound: false, // Don't play sound on updates
       categoryIdentifier: actions != null ? 'actionable' : null,
       attachments: localImagePath != null
@@ -441,51 +438,4 @@ class NotificationAction {
     required this.title,
     required this.onPressed,
   });
-}
-
-class NotificationLevel {
-  const NotificationLevel.urgent()
-      : badge = true,
-        sound = true,
-        lights = true,
-        alert = true,
-        importance = Importance.max,
-        priority = Priority.max,
-        visibility = NotificationVisibility.public;
-
-  const NotificationLevel.normal()
-      : badge = true,
-        sound = true,
-        lights = false,
-        alert = true,
-        importance = Importance.defaultImportance,
-        priority = Priority.defaultPriority,
-        visibility = NotificationVisibility.private;
-
-  const NotificationLevel.subtle()
-      : badge = false,
-        sound = false,
-        lights = false,
-        alert = false,
-        importance = Importance.low,
-        priority = Priority.low,
-        visibility = NotificationVisibility.secret;
-
-  const NotificationLevel.custom({
-    required this.badge,
-    required this.sound,
-    required this.lights,
-    required this.alert,
-    required this.importance,
-    required this.priority,
-    required this.visibility,
-  });
-
-  final bool badge;
-  final bool sound;
-  final bool lights;
-  final bool alert;
-  final Importance importance;
-  final Priority priority;
-  final NotificationVisibility visibility;
 }
