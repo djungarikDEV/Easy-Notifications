@@ -21,17 +21,18 @@ Security is our top priority. When contributing, please:
 
 ## Pull Request Process
 
-1. Fork the repo and create your branch from `master`
-2. If you've added code that should be tested, add tests
-3. If you've changed APIs, update the documentation
-4. Ensure the test suite passes
-5. Make sure your code lints
-6. Issue that pull request
+1. Fork the repo and create your branch from `main`
+2. Create new branch with the name of the feature or fix you are working on
+3. If you've added code that should be tested, add tests
+4. If you've changed APIs, update the documentation
+5. Ensure the test suite passes
+6. Make sure your code lints
+7. Create that pull request
 
 ## Any contributions you make will be under the MIT Software License
 In short, when you submit code changes, your submissions are understood to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
 
-## Report bugs using Github's [issue tracker]([https://github.com/djungarikDEV/easy_notifications/issues](https://github.com/djungarikDEV/Easy-Notifications/issues))
+## Report bugs using Github's [issue tracker](https://github.com/djungarikDEV/Easy-Notifications/issues)
 We use GitHub issues to track public bugs. Report a bug by [opening a new issue](https://github.com/djungarikDEV/Easy-Notifications/issues/new).
 
 ## Write bug reports with detail, background, and sample code

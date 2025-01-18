@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:easy_notifications/easy_notifications.dart';
+import 'package:flutter/material.dart';
 
 // No initialization needed! Just start the app
 void main() {
@@ -91,16 +91,12 @@ class _HomePageState extends State<HomePage> {
                           NotificationAction(
                             id: 'feed',
                             title: 'Feed Now',
-                            onPressed: () {
-                              EasyNotifications.openApp();
-                            },
+                            onPressed: EasyNotifications.openApp,
                           ),
                           NotificationAction(
                             id: 'later',
                             title: 'Later',
-                            onPressed: () {
-                              EasyNotifications.hide();
-                            },
+                            onPressed: EasyNotifications.hide,
                           ),
                         ],
                       );
@@ -134,16 +130,12 @@ class _HomePageState extends State<HomePage> {
                           NotificationAction(
                             id: 'open',
                             title: 'Open App',
-                            onPressed: () {
-                              EasyNotifications.openApp();
-                            },
+                            onPressed: EasyNotifications.openApp,
                           ),
                           NotificationAction(
                             id: 'dismiss',
                             title: 'Dismiss',
-                            onPressed: () {
-                              EasyNotifications.hide();
-                            },
+                            onPressed: EasyNotifications.hide,
                           ),
                         ],
                       );
@@ -181,25 +173,25 @@ class _HomePageState extends State<HomePage> {
                           context: context,
                           initialDate: _scheduledDate,
                           firstDate: DateTime.now(),
-                          lastDate: DateTime.now().add(const Duration(days: 365)),
+                          lastDate: DateTime.now().add(
+                            const Duration(days: 365),
+                          ),
                         );
-                        if (date != null) {
-                          final time = await showTimePicker(
-                            context: context,
-                            initialTime: TimeOfDay.fromDateTime(_scheduledDate),
+                        if (!context.mounted || date == null) return;
+                        final time = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay.fromDateTime(_scheduledDate),
+                        );
+                        if (!context.mounted || time == null) return;
+                        setState(() {
+                          _scheduledDate = DateTime(
+                            date.year,
+                            date.month,
+                            date.day,
+                            time.hour,
+                            time.minute,
                           );
-                          if (time != null) {
-                            setState(() {
-                              _scheduledDate = DateTime(
-                                date.year,
-                                date.month,
-                                date.day,
-                                time.hour,
-                                time.minute,
-                              );
-                            });
-                          }
-                        }
+                        });
                       },
                     ),
                   ),
@@ -214,21 +206,18 @@ class _HomePageState extends State<HomePage> {
                           NotificationAction(
                             id: 'feed',
                             title: 'Feed Now',
-                            onPressed: () {
-                              EasyNotifications.openApp();
-                            },
+                            onPressed: EasyNotifications.openApp,
                           ),
                         ],
                       );
-                      if (mounted) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              'Reminder scheduled for $_scheduledDate',
-                            ),
+                      if (!context.mounted) return;
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Reminder scheduled for $_scheduledDate',
                           ),
-                        );
-                      }
+                        ),
+                      );
                     },
                     child: const Text('Schedule Notification'),
                   ),
@@ -266,9 +255,7 @@ class _HomePageState extends State<HomePage> {
                             NotificationAction(
                               id: 'stop',
                               title: 'Stop',
-                              onPressed: () {
-                                EasyNotifications.hide();
-                              },
+                              onPressed: EasyNotifications.hide,
                             ),
                           ],
                         );
@@ -281,9 +268,7 @@ class _HomePageState extends State<HomePage> {
                           NotificationAction(
                             id: 'check',
                             title: 'Check',
-                            onPressed: () {
-                              EasyNotifications.openApp();
-                            },
+                            onPressed: EasyNotifications.openApp,
                           ),
                         ],
                       );
