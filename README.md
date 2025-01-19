@@ -23,6 +23,8 @@ A secure and privacy-focused Flutter plugin for handling local notifications wit
 
 ## Getting Started
 
+
+
 ### Installation
 
 Add this to your package's `pubspec.yaml` file:
@@ -84,6 +86,12 @@ await EasyNotifications.scheduleMessage(
   body: 'Time for your meeting!',
   scheduledDate: DateTime.now().add(Duration(hours: 1)),
 );
+```
+
+
+## Notifications Preview
+
+![Preview](https://github.com/djungarikDEV/Easy-Notifications/raw/main/example/assets/preview.jpg)
 
 ## Recent Updates
 
