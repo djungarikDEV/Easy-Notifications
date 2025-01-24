@@ -31,7 +31,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  easy_notifications: ^1.1.8
+  easy_notifications: ^1.1.9
 ```
 
 ### Platform Setup
@@ -95,6 +95,13 @@ await EasyNotifications.scheduleMessage(
 
 ## Recent Updates
 
+## 1.1.9
+
+* Completely redesigned plugin architecture for simplicity and efficiency
+* Enhanced local notifications system
+* New initialization flow with improved error handling
+* Simplified API for notifications
+
 ### 1.1.8
 
 * Fixed notification issues on Android 13+
@@ -103,12 +110,6 @@ await EasyNotifications.scheduleMessage(
 * Enhanced security with exported=false for broadcast receivers
 * Updated dependencies to latest stable versions
 * Fixed ic_launcher icon path issues
-
-### 1.1.7
-
-* Added support for default notification icon configuration
-* Added plugin logo
-* Improved documentation
 
 ### Android Setup
 Make sure to add the following permissions to your Android Manifest:
