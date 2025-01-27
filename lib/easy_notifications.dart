@@ -106,7 +106,6 @@ class EasyNotifications {
   }
 
   /// Hides the notification with the specified ID.
-  /// Returns true if the notification was hidden, false otherwise.
   static Future<void> hide() async {
     await _notifications.cancel(notificationId);
   }
@@ -151,7 +150,6 @@ class EasyNotifications {
   }
 
   /// Shows a notification with the specified title, body, and image.
-  /// Returns true if the notification was shown, false otherwise.
   static Future<void> showMessage({
     required String title,
     required String body,
@@ -239,7 +237,6 @@ class EasyNotifications {
   }
 
   /// Schedules a notification to be shown at the specified date and time.
-  /// Returns true if the notification was scheduled, false otherwise.
   static Future<void> scheduleMessage({
     required String title,
     required String body,
@@ -337,7 +334,6 @@ class EasyNotifications {
   }
 
   /// Updates a notification with the specified title, body, and image.
-  /// Returns true if the notification was updated, false otherwise.
   static Future<void> updateMessage({
     required String title,
     required String body,
