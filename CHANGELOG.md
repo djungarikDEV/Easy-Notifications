@@ -1,5 +1,35 @@
 # Changelog
 
+## 1.2.1
+
+* Fixed code formatting issues
+* Updated repository and issue tracker URLs
+* Improved platform support documentation
+* Removed unsupported platforms from documentation
+
+## 1.2.0
+
+* Added support for Web
+* Added new NotificationSettings class for advanced notification configuration
+* Added new NotificationStyle class for customizing notification appearance
+* Updated all dependencies to latest versions
+* Added support for JSON serialization
+* Improved error handling and logging
+* Added support for custom notification sounds
+* Added support for notification grouping
+* Added support for big text style
+* Added support for LED customization on Android
+* Added support for custom vibration patterns
+* Added support for notification categories on iOS
+* Added support for thread identifiers on iOS
+
+## 1.1.9
+
+* Completely redesigned plugin architecture for simplicity and efficiency
+* Enhanced local notifications system
+* New initialization flow with improved error handling
+* Simplified API for notifications
+
 ## 1.1.8
 * Fixed notification issues on Android 13+
 * Improved permission handling for notifications
@@ -68,7 +98,11 @@
 
 ## 1.0.0
 
-Initial release with SOC 2 compliance considerations.
+* Initial release
+* Support for Android and iOS platforms
+* Basic notification functionality
+* Permission handling
+* High-priority notifications
 
 ### Added
 - Secure notification handling system
