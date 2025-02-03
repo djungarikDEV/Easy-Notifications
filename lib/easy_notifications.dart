@@ -29,13 +29,10 @@ class EasyNotifications {
     return true;
   }
 
-  /// The notification ID used for all notifications
-  static const notificationId = 1;
-
   /// Initializes the Easy Notifications plugin.
   /// Must be called before using any other methods.
   /// Returns true if initialization was successful.
-  static Future<void> init() async {
+  static Future<void> init({String? defaultIcon = 'ic_launcher'}) async {
     if (_initialized) return;
 
     tz.initializeTimeZones();
@@ -107,7 +104,10 @@ class EasyNotifications {
 
   /// Hides the notification with the specified ID.
   /// Returns true if the notification was hidden, false otherwise.
-  static Future<void> hide() async {
+  static Future<void> hide({int? id}) async {
+    if (!_initialized) await init();
+    final notificationId = id ?? _generateId();
+    _validateNotificationId(notificationId);
     await _notifications.cancel(notificationId);
   }
 
@@ -150,14 +150,16 @@ class EasyNotifications {
     }
   }
 
-  /// Shows a notification with the specified title, body, and image.
-  /// Returns true if the notification was shown, false otherwise.
+  /// Shows a notification with the specified title and message
+  /// [id] must be a 32-bit integer between -2,147,483,648 and 2,147,483,647
   static Future<void> showMessage({
     required String title,
     required String body,
+    String? message,
     String? imagePath,
     List<NotificationAction>? actions,
     String? icon,
+    int? id,
   }) async {
     if (!_initialized) {
       await init();
@@ -216,6 +218,7 @@ class EasyNotifications {
       playSound: true,
       enableLights: true,
       color: Colors.blue,
+      fullScreenIntent: true,
       visibility: NotificationVisibility.public,
     );
 
@@ -235,7 +238,23 @@ class EasyNotifications {
       macOS: iosDetails,
     );
 
-    await _notifications.show(notificationId, title, body, details);
+    final notificationId = id ?? _generateId();
+    _validateNotificationId(notificationId);
+    final content = message ?? body;
+    await _notifications.show(notificationId, title, content, details);
+  }
+
+  /// Updates a notification with the specified title, body, and image.
+  /// Returns true if the notification was updated, false otherwise.
+  static Future<void> updateMessage({
+    required String title,
+    required String body,
+    int? id,
+  }) async {
+    final notificationId = id ?? _generateId();
+    _validateNotificationId(notificationId);
+    await _notifications.cancel(notificationId);
+    await showMessage(title: title, body: body, id: notificationId);
   }
 
   /// Schedules a notification to be shown at the specified date and time.
@@ -244,180 +263,30 @@ class EasyNotifications {
     required String title,
     required String body,
     required DateTime scheduledDate,
-    String? imagePath,
-    List<NotificationAction>? actions,
-    String? icon,
+    int? id,
   }) async {
-    if (!_initialized) {
-      await init();
-    }
-
-    final hasPermission = await askPermission();
-    if (!hasPermission) {
-      return;
-    }
-
-    String? localImagePath;
-    if (imagePath != null) {
-      localImagePath = await _copyAssetToLocal(imagePath);
-      debugPrint('Local image path: $localImagePath');
-    }
-
-    if (actions != null) {
-      for (final action in actions) {
-        _actionHandlers[action.id] = action.onPressed;
-      }
-    }
-
-    final androidActions = actions
-            ?.map(
-              (action) => AndroidNotificationAction(
-                action.id,
-                action.title,
-                showsUserInterface: true,
-                cancelNotification: false,
-              ),
-            )
-            .toList() ??
-        [];
-
-    final androidDetails = AndroidNotificationDetails(
-      'easy_notifications_channel',
-      'Easy Notifications',
-      channelDescription: 'Channel for easy notifications',
-      importance: Importance.high,
-      priority: Priority.high,
-      actions: androidActions,
-      icon: icon ?? defaultIcon ?? 'ic_launcher',
-      largeIcon:
-          localImagePath != null ? FilePathAndroidBitmap(localImagePath) : null,
-      styleInformation: localImagePath != null
-          ? BigPictureStyleInformation(
-              FilePathAndroidBitmap(localImagePath),
-              hideExpandedLargeIcon: true,
-              contentTitle: title,
-              summaryText: body,
-            )
-          : null,
-      channelShowBadge: true,
-      autoCancel: true,
-      ongoing: false,
-      playSound: true,
-      enableLights: true,
-      color: Colors.blue,
-      visibility: NotificationVisibility.public,
-    );
-
-    final iosDetails = DarwinNotificationDetails(
-      presentAlert: true,
-      presentBadge: true,
-      presentSound: true,
-      categoryIdentifier: actions != null ? 'actionable' : null,
-      attachments: localImagePath != null
-          ? [DarwinNotificationAttachment(localImagePath)]
-          : null,
-    );
-
-    final details = NotificationDetails(
-      android: androidDetails,
-      iOS: iosDetails,
-      macOS: iosDetails,
-    );
-
+    final notificationId = id ?? _generateId();
+    _validateNotificationId(notificationId);
     await _notifications.zonedSchedule(
       notificationId,
       title,
       body,
       tz.TZDateTime.from(scheduledDate, tz.local),
-      details,
+      const NotificationDetails(),
+      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
     );
   }
 
-  /// Updates a notification with the specified title, body, and image.
-  /// Returns true if the notification was updated, false otherwise.
-  static Future<void> updateMessage({
-    required String title,
-    required String body,
-    String? imagePath,
-    List<NotificationAction>? actions,
-    String? icon,
-  }) async {
-    if (!_initialized) {
-      await init();
+  static int _generateId() {
+    return DateTime.now().millisecondsSinceEpoch % (1 << 31);
+  }
+
+  static void _validateNotificationId(int id) {
+    if (id < -2147483648 || id > 2147483647) {
+      throw ArgumentError('Notification ID must be 32-bit integer (between -2^31 and 2^31-1). Received: $id');
     }
-
-    String? localImagePath;
-    if (imagePath != null) {
-      localImagePath = await _copyAssetToLocal(imagePath);
-      debugPrint('Local image path: $localImagePath');
-    }
-
-    if (actions != null) {
-      for (final action in actions) {
-        _actionHandlers[action.id] = action.onPressed;
-      }
-    }
-
-    final androidActions = actions
-            ?.map(
-              (action) => AndroidNotificationAction(
-                action.id,
-                action.title,
-                showsUserInterface: true,
-                cancelNotification: false,
-              ),
-            )
-            .toList() ??
-        [];
-
-    final androidDetails = AndroidNotificationDetails(
-      'easy_notifications_channel',
-      'Easy Notifications',
-      channelDescription: 'Channel for easy notifications',
-      importance: Importance.high,
-      priority: Priority.high,
-      actions: androidActions,
-      icon: icon ?? defaultIcon ?? 'ic_launcher',
-      largeIcon:
-          localImagePath != null ? FilePathAndroidBitmap(localImagePath) : null,
-      styleInformation: localImagePath != null
-          ? BigPictureStyleInformation(
-              FilePathAndroidBitmap(localImagePath),
-              hideExpandedLargeIcon: true,
-              contentTitle: title,
-              summaryText: body,
-            )
-          : null,
-      channelShowBadge: true,
-      autoCancel: true,
-      ongoing: true, // Required for updatable notifications
-      playSound: false, // Don't play sound on updates
-      enableLights: true,
-      onlyAlertOnce: true, // Show alert only on first notification
-      color: Colors.blue,
-      visibility: NotificationVisibility.public,
-    );
-
-    final iosDetails = DarwinNotificationDetails(
-      presentAlert: true,
-      presentBadge: true,
-      presentSound: false, // Don't play sound on updates
-      categoryIdentifier: actions != null ? 'actionable' : null,
-      attachments: localImagePath != null
-          ? [DarwinNotificationAttachment(localImagePath)]
-          : null,
-    );
-
-    final details = NotificationDetails(
-      android: androidDetails,
-      iOS: iosDetails,
-      macOS: iosDetails,
-    );
-
-    await _notifications.show(notificationId, title, body, details);
   }
 }
 
