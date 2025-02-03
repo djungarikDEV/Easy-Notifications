@@ -33,7 +33,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  easy_notifications: ^1.2.0
+  easy_notifications: ^1.2.1
 ```
 
 ### Platform Setup
@@ -106,19 +106,20 @@ EasyNotifications.showMessage(
 
 ## Recent Updates
 
+### 1.2.1
+
+* Fixed code formatting issues
+* Updated repository and issue tracker URLs
+* Improved platform support documentation
+* Removed unsupported platforms from documentation
+
 ### 1.2.0
 
-* Added support for Web, Windows, macOS and Linux
+* Added support for Web
 * Implemented NotificationSettings and NotificationStyle classes
 * Added JSON serialization support
 * Improved documentation and examples
 * Updated all dependencies to latest versions
-
-### 1.1.9
-
-* Completely redesigned plugin architecture
-* Enhanced local notifications system
-* Simplified API for notifications
 
 ## Security & Privacy
 
