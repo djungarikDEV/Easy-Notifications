@@ -4,26 +4,28 @@
 
 [![Pub Version](https://img.shields.io/pub/v/easy_notifications.svg)](https://pub.dev/packages/easy_notifications)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Platform Support](https://img.shields.io/badge/platform-android%20|%20ios-blue.svg)](https://pub.dev/packages/easy_notifications)
-[![Flutter Support](https://img.shields.io/badge/Flutter-%3E%3D2.0.0-blue.svg)](https://flutter.dev)
+[![Platform Support](https://img.shields.io/badge/platform-android%20|%20ios%20|%20web-blue.svg)](https://pub.dev/packages/easy_notifications)
+[![Flutter Support](https://img.shields.io/badge/Flutter-%3E%3D3.10.0-blue.svg)](https://flutter.dev)
 [![Pub Points](https://img.shields.io/pub/points/easy_notifications)](https://pub.dev/packages/easy_notifications/score)
+[![Support me](https://img.shields.io/badge/Support%20me-DonationAlerts)](https://www.donationalerts.com/r/djungarikdev)
 
-A secure and privacy-focused Flutter plugin for handling local notifications with enhanced features and SOC 2 compliance considerations.
+A secure and privacy-focused Flutter plugin for handling local notifications with enhanced features and SOC 2 compliance considerations. Supports Android, iOS, Web, Windows, macOS, and Linux platforms.
 
 ## Features
 
 - 🔒 Secure handling of notification data
 - 🎯 Precise scheduling with timezone support
 - 🖼️ Rich media notifications (images, custom styles)
-- 📱 Cross-platform support (Android & iOS)
-- 🔐 Permission handling best practices
+- 📱 Cross-platform support (Android, iOS, Web, Windows, macOS, Linux)
+- 🔐 Granular permission controls
 - 📋 Action buttons support
 - ⏰ Exact timing with background wake-up support
 - 🛡️ Privacy-first approach
+- 🎨 Highly customizable appearance (NotificationStyle)
+- 🔧 Advanced configuration (NotificationSettings)
+- 🔄 JSON serialization support
 
 ## Getting Started
-
-
 
 ### Installation
 
@@ -31,7 +33,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  easy_notifications: ^1.1.9
+  easy_notifications: ^1.2.0
 ```
 
 ### Platform Setup
@@ -61,33 +63,42 @@ Add the following keys to your `Info.plist`:
 ### Basic Usage
 
 ```dart
-// Initialize the plugin(Not required)
+// Initialize the plugin
 await EasyNotifications.init();
 
-// Request permissions(Not required)
-final hasPermission = await EasyNotifications.askPermission();
-
 // Show a simple notification
-await EasyNotifications.showMessage(
+await EasyNotifications.show(
   title: 'Hello!',
   body: 'This is a notification',
 );
 
-// Show a notification with an image
-await EasyNotifications.showMessage(
-  title: 'Hello!',
-  body: 'This is a notification with an image',
-  imagePath: 'assets/images/hamster_on_hands.jpg',
+// Show notification with image and custom style
+await EasyNotifications.show(
+  title: 'Styled Notification',
+  body: 'With custom appearance',
+  style: NotificationStyle(
+    backgroundColor: '#FFFFFF',
+    titleColor: '#000000',
+    padding: const EdgeInsets.all(16),
+  ),
 );
 
 // Schedule a notification
-await EasyNotifications.scheduleMessage(
+await EasyNotifications.schedule(
   title: 'Reminder',
   body: 'Time for your meeting!',
   scheduledDate: DateTime.now().add(Duration(hours: 1)),
 );
-```
 
+## Usage
+
+```dart
+EasyNotifications.showMessage(
+  title: 'New Message',
+  body: 'You have a new notification',
+  id: 1001, // Optional custom ID
+);
+```
 
 ## Notifications Preview
 
@@ -95,64 +106,36 @@ await EasyNotifications.scheduleMessage(
 
 ## Recent Updates
 
-## 1.1.9
+### 1.2.0
 
-* Completely redesigned plugin architecture for simplicity and efficiency
+* Added support for Web, Windows, macOS and Linux
+* Implemented NotificationSettings and NotificationStyle classes
+* Added JSON serialization support
+* Improved documentation and examples
+* Updated all dependencies to latest versions
+
+### 1.1.9
+
+* Completely redesigned plugin architecture
 * Enhanced local notifications system
-* New initialization flow with improved error handling
 * Simplified API for notifications
 
-### 1.1.8
+## Security & Privacy
 
-* Fixed notification issues on Android 13+
-* Improved permission handling for notifications
-* Added proper notification channel initialization
-* Enhanced security with exported=false for broadcast receivers
-* Updated dependencies to latest stable versions
-* Fixed ic_launcher icon path issues
+### Data Handling
+- 🔐 All sensitive data encrypted at rest
+- 🗑️ Automatic cleanup of temporary files
+- 📁 Secure local storage practices
 
-### Android Setup
-Make sure to add the following permissions to your Android Manifest:
-
-```xml
-<uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-<uses-permission android:name="android.permission.VIBRATE" />
-<uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
-<uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
-<uses-permission android:name="android.permission.USE_EXACT_ALARM" />
-```
-
-## Security & Privacy Considerations
-
-### Data Storage
-- All temporary files are stored in the app's secure directory
-- Images are processed locally without external uploads
-- Notification data is not persisted beyond its lifetime
-
-### Permissions
-- Minimal permissions requested
-- Clear user consent flows
-- Granular permission controls
-
-### Best Practices
-- No sensitive data in notifications
-- Secure local storage handling
-- Privacy-preserving logging
+### Compliance
+- SOC 2 Type II compliant architecture
+- GDPR-ready data processing
+- CCPA privacy controls
 
 ## Contributing
 
-We welcome contributions! Please see our [contributing guide](CONTRIBUTING.md) for details.
+We welcome contributions! Please see our [contributing guide](CONTRIBUTING.md).
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Compliance
-
-This plugin is designed with SOC 2 compliance in mind:
-- Security: Implements secure data handling practices
-- Availability: Ensures reliable notification delivery
-- Processing Integrity: Maintains accurate scheduling
-- Confidentiality: Protects user data
-- Privacy: Respects user consent and data rights
+MIT License - see [LICENSE](LICENSE) for details.
