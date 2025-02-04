@@ -16,7 +16,7 @@ A secure and privacy-focused Flutter plugin for handling local notifications wit
 - 🔒 Secure handling of notification data
 - 🎯 Precise scheduling with timezone support
 - 🖼️ Rich media notifications (images, custom styles)
-- 📱 Cross-platform support (Android, iOS, Web, Windows, macOS, Linux)
+- 📱 Cross-platform support (Android, iOS, Web)
 - 🔐 Granular permission controls
 - 📋 Action buttons support
 - ⏰ Exact timing with background wake-up support
