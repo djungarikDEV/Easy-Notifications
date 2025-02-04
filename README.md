@@ -9,7 +9,7 @@
 [![Pub Points](https://img.shields.io/pub/points/easy_notifications)](https://pub.dev/packages/easy_notifications/score)
 [![Support me](https://img.shields.io/badge/Support%20me-DonationAlerts)](https://www.donationalerts.com/r/djungarikdev)
 
-A secure and privacy-focused Flutter plugin for handling local notifications with enhanced features and SOC 2 compliance considerations. Supports Android, iOS, Web, Windows, macOS, and Linux platforms.
+A secure and privacy-focused Flutter plugin for handling local notifications with enhanced features and SOC 2 compliance considerations. Supports Android, iOS, Web
 
 ## Features
 
