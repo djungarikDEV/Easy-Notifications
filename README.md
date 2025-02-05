@@ -9,7 +9,7 @@
 [![Pub Points](https://img.shields.io/pub/points/easy_notifications)](https://pub.dev/packages/easy_notifications/score)
 [![Support me](https://img.shields.io/badge/Support%20me-DonationAlerts)](https://www.donationalerts.com/r/djungarikdev)
 
-A secure and privacy-focused Flutter plugin for handling local notifications with enhanced features and SOC 2 compliance considerations. Supports Android, iOS, Web
+A secure and privacy-focused Flutter plugin for handling local notifications with enhanced features and SOC 2 compliance considerations. Supports Android, iOS, Web platforms.
 
 ## Features
 
@@ -33,7 +33,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  easy_notifications: ^1.2.1
+  easy_notifications: ^1.2.4
 ```
 
 ### Platform Setup
@@ -89,6 +89,7 @@ await EasyNotifications.schedule(
   body: 'Time for your meeting!',
   scheduledDate: DateTime.now().add(Duration(hours: 1)),
 );
+```
 
 ## Usage
 
@@ -106,20 +107,14 @@ EasyNotifications.showMessage(
 
 ## Recent Updates
 
-### 1.2.1
+### 1.2.4
 
-* Fixed code formatting issues
-* Updated repository and issue tracker URLs
-* Improved platform support documentation
-* Removed unsupported platforms from documentation
+* Added back NotificationLevel class for backwards compatibility
 
-### 1.2.0
+### 1.2.3
 
-* Added support for Web
-* Implemented NotificationSettings and NotificationStyle classes
-* Added JSON serialization support
-* Improved documentation and examples
-* Updated all dependencies to latest versions
+* Fixed platform support documentation
+* Removed unsupported platforms from pubspec.yaml
 
 ## Security & Privacy
 
