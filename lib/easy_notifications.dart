@@ -263,16 +263,65 @@ class EasyNotifications {
     required String title,
     required String body,
     required DateTime scheduledDate,
+    String? imagePath,
+    List<NotificationAction>? actions,
+    String? icon,
     int? id,
   }) async {
     final notificationId = id ?? _generateId();
     _validateNotificationId(notificationId);
+
+    String? localImagePath;
+    if (imagePath != null) {
+      localImagePath = await _copyAssetToLocal(imagePath);
+    }
+
+    final androidDetails = AndroidNotificationDetails(
+      'easy_notifications_channel',
+      'Easy Notifications',
+      channelDescription: 'Channel for easy notifications',
+      importance: Importance.high,
+      priority: Priority.high,
+      icon: icon ?? defaultIcon ?? 'ic_launcher',
+      largeIcon: localImagePath != null ? FilePathAndroidBitmap(localImagePath) : null,
+      styleInformation: localImagePath != null
+          ? BigPictureStyleInformation(
+              FilePathAndroidBitmap(localImagePath),
+              hideExpandedLargeIcon: true,
+              contentTitle: title,
+              summaryText: body,
+            )
+          : null,
+      channelShowBadge: true,
+      autoCancel: true,
+      ongoing: false,
+      playSound: true,
+      enableLights: true,
+      fullScreenIntent: true,
+      visibility: NotificationVisibility.public,
+    );
+
+    final iosDetails = DarwinNotificationDetails(
+      presentAlert: true,
+      presentBadge: true,
+      presentSound: true,
+      attachments: localImagePath != null
+          ? [DarwinNotificationAttachment(localImagePath)]
+          : null,
+    );
+
+    final details = NotificationDetails(
+      android: androidDetails,
+      iOS: iosDetails,
+      macOS: iosDetails,
+    );
+
     await _notifications.zonedSchedule(
       notificationId,
       title,
       body,
       tz.TZDateTime.from(scheduledDate, tz.local),
-      const NotificationDetails(),
+      details,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
@@ -285,7 +334,8 @@ class EasyNotifications {
 
   static void _validateNotificationId(int id) {
     if (id < -2147483648 || id > 2147483647) {
-      throw ArgumentError('Notification ID must be 32-bit integer (between -2^31 and 2^31-1). Received: $id');
+      throw ArgumentError(
+          'Notification ID must be 32-bit integer (between -2^31 and 2^31-1). Received: $id');
     }
   }
 }
