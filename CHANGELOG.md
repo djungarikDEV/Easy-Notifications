@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.2.4
+
+* Added back NotificationLevel class for backwards compatibility
+
+## 1.2.3
+
+* Small bug fixed
+
+## 1.2.2
+
+* Removed unsupported platforms from documentation (Windows, macOS, Linux)
+
 ## 1.2.1
 
 * Fixed code formatting issues
