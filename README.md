@@ -33,7 +33,7 @@ Add this to your package's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  easy_notifications: ^1.2.4
+  easy_notifications: ^1.2.5
 ```
 
 ### Platform Setup
@@ -58,6 +58,22 @@ Add the following keys to your `Info.plist`:
     <string>fetch</string>
     <string>remote-notification</string>
 </array>
+```
+
+#### Web
+
+To enable web notifications, you need to add the following script to your `index.html` file:
+
+```html
+<script>
+  if ('Notification' in window) {
+    Notification.requestPermission().then(permission => {
+      if (permission === 'granted') {
+        console.log('Notification permission granted.');
+      }
+    });
+  }
+</script>
 ```
 
 ### Basic Usage
@@ -106,6 +122,11 @@ EasyNotifications.showMessage(
 ![Preview](https://github.com/djungarikDEV/Easy-Notifications/raw/main/example/assets/preview.jpg)
 
 ## Recent Updates
+
+### 1.2.5
+
+* Fixed web notifications registration
+* Added proper error handling for web platform
 
 ### 1.2.4
 
