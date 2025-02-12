@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.2.5
+
+* Fixed web notifications registration
+* Added proper error handling for web platform
+
 ## 1.2.4
 
 * Added back NotificationLevel class for backwards compatibility
