@@ -30,7 +30,8 @@ class EasyNotificationsWeb {
       default:
         throw PlatformException(
           code: 'Unimplemented',
-          details: 'easy_notifications for web doesn\'t implement \'${call.method}\'',
+          details:
+              'easy_notifications for web doesn\'t implement \'${call.method}\'',
         );
     }
   }
@@ -47,7 +48,8 @@ class EasyNotificationsWeb {
     if (!js.context.hasProperty('Notification')) {
       return false;
     }
-    final result = await js.context['Notification'].callMethod('requestPermission');
+    final result =
+        await js.context['Notification'].callMethod('requestPermission');
     return result == 'granted';
   }
 
