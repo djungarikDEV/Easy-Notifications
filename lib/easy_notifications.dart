@@ -4,6 +4,7 @@
 library easy_notifications;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'dart:io';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -326,6 +327,27 @@ class EasyNotifications {
       uiLocalNotificationDateInterpretation:
           UILocalNotificationDateInterpretation.absoluteTime,
     );
+  }
+
+  /// Registers the application for web notifications.
+  /// This method should be called only in web platform.
+  /// Returns true if registration was successful.
+  static Future<bool> registerWeb() async {
+    if (!_initialized) await init();
+    
+    try {
+      if (kIsWeb) {
+        // For web, we'll use a direct method channel call since web notifications
+        // require a different permission flow
+        const channel = MethodChannel('easy_notifications');
+        final result = await channel.invokeMethod<bool>('requestPermission');
+        return result ?? false;
+      }
+      return false;
+    } catch (e) {
+      debugPrint('Error registering web notifications: $e');
+      return false;
+    }
   }
 
   static int _generateId() {
