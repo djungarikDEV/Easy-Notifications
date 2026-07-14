@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.2.6
+
+* Removed inaccurate return-value docs on `hide()`, `updateMessage()`, and
+  `scheduleMessage()` -- they return `Future<void>`, not `bool`
+* Documented the Android core library desugaring setup required by
+  `flutter_local_notifications` (#14)
+
 ## 1.2.5
 
 * Fixed web notifications registration

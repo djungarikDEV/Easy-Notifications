@@ -48,6 +48,26 @@ Add the following permissions to your `AndroidManifest.xml`:
 <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 ```
 
+This plugin depends on `flutter_local_notifications`, which requires Android core
+library desugaring. Add this to your app's `android/app/build.gradle.kts`:
+
+```kotlin
+android {
+  //...
+  compileOptions {
+    isCoreLibraryDesugaringEnabled = true
+  }
+}
+
+dependencies {
+  coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
+}
+```
+
+(`build.gradle` instead of `build.gradle.kts`? See the
+[Android docs](https://developer.android.com/studio/write/java8-support#library-desugaring)
+for the Groovy syntax.)
+
 #### iOS
 
 Add the following keys to your `Info.plist`:
@@ -122,6 +142,11 @@ EasyNotifications.showMessage(
 ![Preview](https://github.com/djungarikDEV/Easy-Notifications/raw/main/example/assets/preview.jpg)
 
 ## Recent Updates
+
+### 1.2.6
+
+* Removed inaccurate return-value docs on `hide()`, `updateMessage()`, and `scheduleMessage()`
+* Documented the Android core library desugaring setup required by `flutter_local_notifications`
 
 ### 1.2.5
 

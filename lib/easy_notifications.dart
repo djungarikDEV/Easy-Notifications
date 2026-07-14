@@ -248,12 +248,22 @@ class EasyNotifications {
   static Future<void> updateMessage({
     required String title,
     required String body,
+    String? imagePath,
+    List<NotificationAction>? actions,
+    String? icon,
     int? id,
   }) async {
     final notificationId = id ?? _generateId();
     _validateNotificationId(notificationId);
     await _notifications.cancel(notificationId);
-    await showMessage(title: title, body: body, id: notificationId);
+    await showMessage(
+      title: title,
+      body: body,
+      imagePath: imagePath,
+      actions: actions,
+      icon: icon,
+      id: notificationId,
+    );
   }
 
   /// Schedules a notification to be shown at the specified date and time.
